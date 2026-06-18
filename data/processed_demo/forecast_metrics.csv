@@ -1,2 +1,2 @@
 model,mae,mape,wape,wape_uplift_vs_best_baseline,train_rows,test_rows,train_start,train_end,test_start,test_end
-random_forest,0.0,,0.0,0.0,887,222,2022-11-18,2025-06-11,2025-06-12,2026-02-28
+random_forest,1559.521636369647,0.051622466429425015,0.034783402179995426,0.5453425293145335,887,222,2022-11-18,2025-06-11,2025-06-12,2026-02-28

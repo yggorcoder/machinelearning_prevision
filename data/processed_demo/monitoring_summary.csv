@@ -1,2 +1,2 @@
 overall_status,n_features,n_ok,n_warning,n_alert,recent_days,reference_rows,current_rows
-ALERT,6,5,0,1,30,21299,451
+ALERT,6,4,0,2,30,21299,451

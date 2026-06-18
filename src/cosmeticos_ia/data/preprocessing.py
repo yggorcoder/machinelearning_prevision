@@ -95,12 +95,12 @@ def preprocess_compras(df: pd.DataFrame) -> pd.DataFrame:
     if "qtde_itens" in df.columns:
         df["qtde_itens"] = pd.to_numeric(df["qtde_itens"], errors="coerce").fillna(0).astype(int)
 
-    # Valor total e desconto -> float
+    # Valor total e desconto -> float (formato BR: "1.234,56" ou "1234,56")
     if "valor_total" in df.columns:
-        df["valor_total"] = pd.to_numeric(df["valor_total"], errors="coerce").fillna(0.0)
+        df["valor_total"] = _parse_money_brl(df["valor_total"]).fillna(0.0)
 
     if "valor_desconto" in df.columns:
-        df["valor_desconto"] = pd.to_numeric(df["valor_desconto"], errors="coerce").fillna(0.0)
+        df["valor_desconto"] = _parse_money_brl(df["valor_desconto"]).fillna(0.0)
 
     # remove linhas inválidas para análise/modelagem
     # compra válida precisa de cliente, pedido e data

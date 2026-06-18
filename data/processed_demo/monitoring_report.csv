@@ -1,7 +1,7 @@
 feature,ref_mean,ref_std,current_mean,current_std,mean_shift_normalized,psi,status
 recency,35.6374,25.5134,50.5854,24.8257,0.5859,0.3578,ALERT
 frequency_lookback,1.7683,1.1968,1.7051,1.5404,0.0528,0.0481,OK
-monetary_lookback,0.0,0.0,0.0,0.0,0.0,0.0,OK
-ticket_medio_lookback,0.0,0.0,0.0,0.0,0.0,0.0,OK
-tendencia_gasto_lookback,0.0,0.0,0.0,0.0,0.0,0.0,OK
-faturamento_total,0.0,0.0,0.0,0.0,0.0,0.0,OK
+monetary_lookback,25416.3346,30367.1174,24171.4389,31487.4312,0.041,0.0387,OK
+ticket_medio_lookback,13812.3242,12205.1,13172.1375,10640.941,0.0525,0.0301,OK
+tendencia_gasto_lookback,0.3543,0.4264,0.1654,0.3386,0.443,0.3519,ALERT
+faturamento_total,48173.597,37860.9894,46309.8499,37516.9564,0.0492,0.0256,OK

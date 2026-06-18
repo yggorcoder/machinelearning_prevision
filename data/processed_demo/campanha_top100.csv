@@ -1,75 +1,75 @@
 rank,id_cliente,nome_cliente,score_recompra_30d,prioridade,acao_sugerida,recency,frequency_lookback,monetary_lookback,ticket_medio_lookback,tendencia_gasto_lookback
-1,ID173048,Igor Silva,0.6773051148760764,Alta,Reativacao imediata,47,4,0.0,0.0,0.0
-2,ID514042,Helena Gomes,0.6680217362548152,Alta,Reativacao imediata,36,3,0.0,0.0,0.0
-3,ID949476,Helena Almeida,0.6627096915761662,Alta,Reativacao imediata,26,4,0.0,0.0,0.0
-4,ID227545,Gabi Ribeiro,0.6521363559790417,Alta,Reativacao imediata,80,2,0.0,0.0,0.0
-5,ID989449,Fabio Silva,0.6462675394509784,Alta,Reativacao imediata,20,5,0.0,0.0,0.0
-6,ID498945,Bruno Oliveira,0.630411571855392,Alta,Reativacao imediata,51,3,0.0,0.0,0.0
-7,ID536365,Julia Almeida,0.6020003678114015,Alta,Reativacao imediata,49,3,0.0,0.0,0.0
-8,ID967623,Igor Costa,0.5527595410171134,Media,Campanha de relacionamento,7,3,0.0,0.0,0.0
-9,ID275618,Ana Almeida,0.5131619680252497,Media,Campanha de relacionamento,61,2,0.0,0.0,0.0
-10,ID390920,Elisa Souza,0.5126439112790636,Media,Campanha de relacionamento,54,2,0.0,0.0,0.0
-11,ID535609,Bruno Oliveira,0.5126439112790636,Media,Campanha de relacionamento,54,2,0.0,0.0,0.0
-12,ID513460,Ana Pereira,0.4982041294358444,Media,Campanha de relacionamento,24,2,0.0,0.0,0.0
-13,ID147735,Helena Pereira,0.48522645839487827,Media,Campanha de relacionamento,48,2,0.0,0.0,0.0
-14,ID418122,Fabio Lima,0.48273649058577156,Media,Campanha de relacionamento,74,1,0.0,0.0,0.0
-15,ID997731,Igor Gomes,0.48273649058577156,Media,Campanha de relacionamento,74,1,0.0,0.0,0.0
-16,ID492763,Julia Ribeiro,0.48248966783153946,Media,Campanha de relacionamento,50,2,0.0,0.0,0.0
-17,ID489744,Helena Costa,0.48220861630156986,Media,Campanha de relacionamento,22,2,0.0,0.0,0.0
-18,ID505935,Ana Almeida,0.4820885429571837,Media,Campanha de relacionamento,33,1,0.0,0.0,0.0
-19,ID749293,Helena Pereira,0.4811782139247771,Media,Campanha de relacionamento,27,1,0.0,0.0,0.0
-20,ID686441,Bruno Gomes,0.4803451285375065,Media,Campanha de relacionamento,87,1,0.0,0.0,0.0
-21,ID438763,Carla Santos,0.4752677733960396,Media,Campanha de relacionamento,73,1,0.0,0.0,0.0
-22,ID530755,Gabi Almeida,0.4752586929267638,Media,Campanha de relacionamento,66,1,0.0,0.0,0.0
-23,ID423950,Elisa Lima,0.46789433706425704,Media,Campanha de relacionamento,37,2,0.0,0.0,0.0
-24,ID996416,Ana Souza,0.4657644419699427,Media,Campanha de relacionamento,88,1,0.0,0.0,0.0
-25,ID102849,Diego Pereira,0.4639845546553636,Media,Campanha de relacionamento,80,1,0.0,0.0,0.0
-26,ID751203,Fabio Ribeiro,0.4639845546553636,Media,Campanha de relacionamento,80,1,0.0,0.0,0.0
-27,ID250625,Igor Gomes,0.46395780212787996,Media,Campanha de relacionamento,40,1,0.0,0.0,0.0
-28,ID636285,Diego Costa,0.463601835460172,Media,Campanha de relacionamento,86,1,0.0,0.0,0.0
-29,ID330039,Julia Costa,0.463601835460172,Media,Campanha de relacionamento,86,1,0.0,0.0,0.0
-30,ID230296,Julia Souza,0.4629719538555252,Media,Campanha de relacionamento,39,2,0.0,0.0,0.0
-31,ID944120,,0.45889145912601775,Media,Campanha de relacionamento,84,1,0.0,0.0,0.0
-32,ID747843,Diego Oliveira,0.45889145912601775,Media,Campanha de relacionamento,84,1,0.0,0.0,0.0
-33,ID919783,Helena Lima,0.45548659193324187,Media,Campanha de relacionamento,32,1,0.0,0.0,0.0
-34,ID530946,Julia Gomes,0.45548659193324187,Media,Campanha de relacionamento,32,1,0.0,0.0,0.0
-35,ID217189,Fabio Costa,0.4526274899519733,Media,Campanha de relacionamento,42,2,0.0,0.0,0.0
-36,ID464297,Julia Ribeiro,0.44781429380241006,Media,Campanha de relacionamento,36,1,0.0,0.0,0.0
-37,ID352526,Diego Ribeiro,0.44665807792681733,Media,Campanha de relacionamento,30,1,0.0,0.0,0.0
-38,ID958763,Elisa Souza,0.44535962479059693,Media,Campanha de relacionamento,39,1,0.0,0.0,0.0
-39,ID780193,Ana Oliveira,0.4425314932916018,Media,Campanha de relacionamento,48,1,0.0,0.0,0.0
-40,ID634724,Bruno Pereira,0.43835426133513133,Media,Campanha de relacionamento,12,1,0.0,0.0,0.0
-41,ID903353,Julia Ribeiro,0.4354365849953101,Media,Campanha de relacionamento,47,1,0.0,0.0,0.0
-42,ID657628,Carla Silva,0.43382523926782274,Media,Campanha de relacionamento,78,1,0.0,0.0,0.0
-43,ID309811,Julia Oliveira,0.43382523926782274,Media,Campanha de relacionamento,78,1,0.0,0.0,0.0
-44,ID815861,,0.43294892205066965,Media,Campanha de relacionamento,71,1,0.0,0.0,0.0
-45,ID249228,Helena Pereira,0.4315136384199088,Media,Campanha de relacionamento,0,1,0.0,0.0,0.0
-46,ID450915,Ana Oliveira,0.42920763553056285,Media,Campanha de relacionamento,83,1,0.0,0.0,0.0
-47,ID256668,Gabi Lima,0.42870445298722215,Media,Campanha de relacionamento,65,1,0.0,0.0,0.0
-48,ID458327,Julia Lima,0.428414714565868,Media,Campanha de relacionamento,43,1,0.0,0.0,0.0
-49,ID685124,Julia Ribeiro,0.42523199734438244,Media,Campanha de relacionamento,57,1,0.0,0.0,0.0
-50,ID126534,Elisa Silva,0.42485889287506884,Media,Campanha de relacionamento,60,1,0.0,0.0,0.0
-51,ID850280,Elisa Santos,0.42485889287506884,Media,Campanha de relacionamento,60,1,0.0,0.0,0.0
-52,ID328445,Julia Souza,0.4239050944455505,Media,Campanha de relacionamento,63,1,0.0,0.0,0.0
-53,ID288528,Helena Souza,0.42249528663433167,Media,Campanha de relacionamento,40,2,0.0,0.0,0.0
-54,ID936006,Igor Gomes,0.41689634911541523,Media,Campanha de relacionamento,58,1,0.0,0.0,0.0
-55,ID229319,Bruno Lima,0.41310820381922053,Media,Campanha de relacionamento,69,1,0.0,0.0,0.0
-56,ID327868,Fabio Souza,0.4108246369860542,Media,Campanha de relacionamento,82,1,0.0,0.0,0.0
-57,ID409516,Ana Oliveira,0.4108246369860542,Media,Campanha de relacionamento,82,1,0.0,0.0,0.0
-58,ID858247,Carla Lima,0.4108246369860542,Media,Campanha de relacionamento,82,1,0.0,0.0,0.0
-59,ID538181,Elisa Souza,0.4108246369860542,Media,Campanha de relacionamento,82,1,0.0,0.0,0.0
-60,ID235077,Igor Almeida,0.4108246369860542,Media,Campanha de relacionamento,82,1,0.0,0.0,0.0
-61,ID842391,Fabio Souza,0.4108246369860542,Media,Campanha de relacionamento,82,1,0.0,0.0,0.0
-62,ID812261,Gabi Costa,0.4091007940549233,Media,Campanha de relacionamento,72,1,0.0,0.0,0.0
-63,ID869385,,0.4091007940549233,Media,Campanha de relacionamento,72,1,0.0,0.0,0.0
-64,ID350076,,0.40656982229005295,Media,Campanha de relacionamento,89,1,0.0,0.0,0.0
-65,ID470812,Helena Ribeiro,0.40656982229005295,Media,Campanha de relacionamento,89,1,0.0,0.0,0.0
-66,ID989420,Diego Gomes,0.40656982229005295,Media,Campanha de relacionamento,89,1,0.0,0.0,0.0
-67,ID784783,Fabio Lima,0.4045317203233385,Media,Campanha de relacionamento,76,1,0.0,0.0,0.0
-68,ID909320,Bruno Lima,0.4045317203233385,Media,Campanha de relacionamento,76,1,0.0,0.0,0.0
-69,ID370425,Bruno Ribeiro,0.4045317203233385,Media,Campanha de relacionamento,76,1,0.0,0.0,0.0
-70,ID424337,,0.3932694791592373,Media,Campanha de relacionamento,8,1,0.0,0.0,0.0
-71,ID645488,Bruno Silva,0.3823742819378375,Media,Campanha de relacionamento,90,1,0.0,0.0,0.0
-72,ID786493,Helena Lima,0.36920380365034094,Media,Campanha de relacionamento,34,9,0.0,0.0,0.0
-73,ID776479,Igor Souza,0.33708469658428825,Baixa,Contato padrao,45,5,0.0,0.0,0.0
-74,ID206414,Fabio Gomes,0.055350691721497786,Baixa,Contato padrao,88,2,0.0,0.0,0.0
+1,ID989449,Fabio Silva,0.6962057161136004,Alta,Reativacao imediata,20,5,78870.28,15774.056,0.1777294311621564
+2,ID949476,Helena Almeida,0.6505339941401728,Alta,Reativacao imediata,26,4,74617.87,18654.4675,0.2616052964256418
+3,ID786493,Helena Lima,0.6150469058698518,Alta,Reativacao imediata,34,9,152780.57,16975.61888888889,0.0
+4,ID173048,Igor Silva,0.5937181140648505,Media,Campanha de relacionamento,47,4,142173.73,35543.4325,0.0
+5,ID536365,Julia Almeida,0.5858318947582392,Media,Campanha de relacionamento,49,3,42779.64,14259.88,0.0
+6,ID514042,Helena Gomes,0.5774285496696678,Media,Campanha de relacionamento,36,3,31417.329999999998,10472.443333333333,0.0
+7,ID967623,Igor Costa,0.56275589569581,Media,Campanha de relacionamento,7,3,47021.31,15673.769999999999,0.3702755197590199
+8,ID776479,Igor Souza,0.5592431361025809,Media,Campanha de relacionamento,45,5,41520.13,8304.026,0.0
+9,ID535609,Bruno Oliveira,0.5437435548641418,Media,Campanha de relacionamento,54,2,52413.14,26206.57,0.0
+10,ID498945,Bruno Oliveira,0.5404432427946735,Media,Campanha de relacionamento,51,3,39060.39,13020.13,0.0
+11,ID217189,Fabio Costa,0.5299663896830145,Media,Campanha de relacionamento,42,2,54410.020000000004,27205.010000000002,0.0
+12,ID815861,,0.5144354579440105,Media,Campanha de relacionamento,71,1,1081.31,1081.31,0.0
+13,ID147735,Helena Pereira,0.5105343773418182,Media,Campanha de relacionamento,48,2,18736.190000000002,9368.095000000001,0.0
+14,ID227545,Gabi Ribeiro,0.5096168425622654,Media,Campanha de relacionamento,80,2,25870.38,12935.19,0.0
+15,ID489744,Helena Costa,0.5077147286098871,Media,Campanha de relacionamento,22,2,37879.73,18939.865,0.9523713606195185
+16,ID634724,Bruno Pereira,0.4974825546992519,Media,Campanha de relacionamento,12,1,15516.24,15516.24,1.0
+17,ID275618,Ana Almeida,0.4955546612650329,Media,Campanha de relacionamento,61,2,30092.38,15046.19,0.0
+18,ID780193,Ana Oliveira,0.4924844103659881,Media,Campanha de relacionamento,48,1,27824.16,27824.16,0.0
+19,ID505935,Ana Almeida,0.49009933333972916,Media,Campanha de relacionamento,33,1,3720.55,3720.55,0.0
+20,ID206414,Fabio Gomes,0.4884031370930609,Media,Campanha de relacionamento,88,2,30069.78,15034.89,0.0
+21,ID749293,Helena Pereira,0.48679273150926455,Media,Campanha de relacionamento,27,1,32553.35,32553.35,1.0
+22,ID919783,Helena Lima,0.48289467622129423,Media,Campanha de relacionamento,32,1,19103.21,19103.21,0.0
+23,ID423950,Elisa Lima,0.4827594499611577,Media,Campanha de relacionamento,37,2,22002.6,11001.3,0.0
+24,ID230296,Julia Souza,0.479262544813965,Media,Campanha de relacionamento,39,2,29056.800000000003,14528.400000000001,0.0
+25,ID492763,Julia Ribeiro,0.4762585752559809,Media,Campanha de relacionamento,50,2,23670.09,11835.045,0.0
+26,ID751203,Fabio Ribeiro,0.47295285909721874,Media,Campanha de relacionamento,80,1,10209.3,10209.3,0.0
+27,ID869385,,0.471476356674386,Media,Campanha de relacionamento,72,1,30609.48,30609.48,0.0
+28,ID958763,Elisa Souza,0.46832136829694093,Media,Campanha de relacionamento,39,1,3470.56,3470.56,0.0
+29,ID513460,Ana Pereira,0.4659766965679925,Media,Campanha de relacionamento,24,2,16822.300000000003,8411.150000000001,0.6637439589116826
+30,ID450915,Ana Oliveira,0.464111589954177,Media,Campanha de relacionamento,83,1,2450.76,2450.76,0.0
+31,ID686441,Bruno Gomes,0.4638519082288228,Media,Campanha de relacionamento,87,1,17063.46,17063.46,0.0
+32,ID530755,Gabi Almeida,0.46315778765373866,Media,Campanha de relacionamento,66,1,10536.42,10536.42,0.0
+33,ID330039,Julia Costa,0.46297544701379534,Media,Campanha de relacionamento,86,1,34672.63,34672.63,0.0
+34,ID538181,Elisa Souza,0.462900375648109,Media,Campanha de relacionamento,82,1,6420.68,6420.68,0.0
+35,ID327868,Fabio Souza,0.462900375648109,Media,Campanha de relacionamento,82,1,6434.94,6434.94,0.0
+36,ID850280,Elisa Santos,0.46238976839303036,Media,Campanha de relacionamento,60,1,3260.38,3260.38,0.0
+37,ID747843,Diego Oliveira,0.4623483913993081,Media,Campanha de relacionamento,84,1,18890.11,18890.11,0.0
+38,ID126534,Elisa Silva,0.46186885841117753,Media,Campanha de relacionamento,60,1,25487.22,25487.22,0.0
+39,ID438763,Carla Santos,0.46002980710781344,Media,Campanha de relacionamento,73,1,5942.09,5942.09,0.0
+40,ID530946,Julia Gomes,0.4598735956626347,Media,Campanha de relacionamento,32,1,3099.48,3099.48,0.0
+41,ID229319,Bruno Lima,0.4598511716131198,Media,Campanha de relacionamento,69,1,17244.43,17244.43,0.0
+42,ID256668,Gabi Lima,0.45850075591865447,Media,Campanha de relacionamento,65,1,9213.48,9213.48,0.0
+43,ID657628,Carla Silva,0.45847771725974296,Media,Campanha de relacionamento,78,1,20931.07,20931.07,0.0
+44,ID936006,Igor Gomes,0.45598546527425005,Media,Campanha de relacionamento,58,1,25169.34,25169.34,0.0
+45,ID997731,Igor Gomes,0.45574393397294616,Media,Campanha de relacionamento,74,1,4532.92,4532.92,0.0
+46,ID909320,Bruno Lima,0.4552232340819602,Media,Campanha de relacionamento,76,1,12794.47,12794.47,0.0
+47,ID249228,Helena Pereira,0.45483608228425026,Media,Campanha de relacionamento,0,1,10378.17,10378.17,1.0
+48,ID390920,Elisa Souza,0.4534694540331421,Media,Campanha de relacionamento,54,2,12008.279999999999,6004.139999999999,0.0
+49,ID309811,Julia Oliveira,0.4507034152571176,Media,Campanha de relacionamento,78,1,6498.44,6498.44,0.0
+50,ID250625,Igor Gomes,0.4505654184296291,Media,Campanha de relacionamento,40,1,6444.04,6444.04,0.0
+51,ID288528,Helena Souza,0.4489122550411455,Media,Campanha de relacionamento,40,2,5573.65,2786.825,0.0
+52,ID328445,Julia Souza,0.4487307712795839,Media,Campanha de relacionamento,63,1,14504.93,14504.93,0.0
+53,ID645488,Bruno Silva,0.44677454639563224,Media,Campanha de relacionamento,90,1,5914.65,5914.65,0.0
+54,ID418122,Fabio Lima,0.44186628491859864,Media,Campanha de relacionamento,74,1,25044.66,25044.66,0.0
+55,ID370425,Bruno Ribeiro,0.44165508925358465,Media,Campanha de relacionamento,76,1,13684.49,13684.49,0.0
+56,ID812261,Gabi Costa,0.44061477398348053,Media,Campanha de relacionamento,72,1,4725.18,4725.18,0.0
+57,ID470812,Helena Ribeiro,0.43843346281378054,Media,Campanha de relacionamento,89,1,5362.19,5362.19,0.0
+58,ID424337,,0.43795050580957046,Media,Campanha de relacionamento,8,1,1114.37,1114.37,1.0
+59,ID685124,Julia Ribeiro,0.4316141830215099,Media,Campanha de relacionamento,57,1,6273.49,6273.49,0.0
+60,ID996416,Ana Souza,0.4309469536515531,Media,Campanha de relacionamento,88,1,36286.85,36286.85,0.0
+61,ID989420,Diego Gomes,0.4290251254605245,Media,Campanha de relacionamento,89,1,13054.73,13054.73,0.0
+62,ID944120,,0.42756007850128336,Media,Campanha de relacionamento,84,1,11267.14,11267.14,0.0
+63,ID858247,Carla Lima,0.42621401863375696,Media,Campanha de relacionamento,82,1,11287.96,11287.96,0.0
+64,ID352526,Diego Ribeiro,0.4148187686753083,Media,Campanha de relacionamento,30,1,5962.92,5962.92,1.0
+65,ID409516,Ana Oliveira,0.405573490059899,Media,Campanha de relacionamento,82,1,11701.46,11701.46,0.0
+66,ID458327,Julia Lima,0.4015276278899811,Media,Campanha de relacionamento,43,1,7780.52,7780.52,0.0
+67,ID464297,Julia Ribeiro,0.3997165395935454,Media,Campanha de relacionamento,36,1,7034.4,7034.4,0.0
+68,ID903353,Julia Ribeiro,0.3597014972181597,Media,Campanha de relacionamento,47,1,7690.21,7690.21,0.0
+69,ID235077,Igor Almeida,0.35640922967747896,Media,Campanha de relacionamento,82,1,7121.51,7121.51,0.0
+70,ID102849,Diego Pereira,0.3498203991274905,Baixa,Contato padrao,80,1,491.46,491.46,0.0
+71,ID350076,,0.34630680813775144,Baixa,Contato padrao,89,1,54402.99,54402.99,0.0
+72,ID636285,Diego Costa,0.272627801597078,Baixa,Contato padrao,86,1,1463.4,1463.4,0.0
+73,ID784783,Fabio Lima,0.25003578271324245,Baixa,Contato padrao,76,1,1545.52,1545.52,0.0
+74,ID842391,Fabio Souza,0.09761639991333361,Baixa,Contato padrao,82,1,1299.6,1299.6,0.0
