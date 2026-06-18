@@ -223,6 +223,42 @@ streamlit run src/cosmeticos_ia/app/dashboard.py
 
 > Rode o pipeline antes para gerar os artefatos em `data/processed/`.
 
+### 9.1 Deploy (Streamlit Community Cloud)
+
+O arquivo [`streamlit_app.py`](streamlit_app.py) na raiz é o ponto de entrada para deploy público. Na primeira execução na nuvem, ele roda o pipeline automaticamente com `data/raw_fake` (dados sintéticos — sem expor clientes reais).
+
+**Pré-requisitos**
+1. Código atualizado no GitHub (`master`).
+2. Conta em [share.streamlit.io](https://share.streamlit.io) (login com GitHub).
+3. Repositório acessível ao Streamlit (público ou autorizado).
+
+**Passo a passo**
+1. Acesse [share.streamlit.io](https://share.streamlit.io) → **Create app**.
+2. **Repository:** `yggorcoder/machinelearning_prevision`
+3. **Branch:** `master`
+4. **Main file path:** `streamlit_app.py`
+5. **App URL:** escolha um slug (ex.: `cosmeticos-ia-demo`).
+6. Clique em **Deploy** e aguarde o build (2–5 min na primeira vez).
+7. Na primeira abertura do app, o pipeline pode levar ~1 min para gerar os artefatos — é normal.
+
+**Configuração avançada (opcional)**
+
+Em **Settings → Secrets**, só é necessário se quiser sobrescrever pastas:
+
+```toml
+COSMETICOS_RAW_DATA_DIR = "data/raw_fake"
+```
+
+**Testar localmente o mesmo entrypoint do deploy**
+
+```powershell
+streamlit run streamlit_app.py
+```
+
+**Limitações do deploy público**
+- Exibe métricas geradas com **dados sintéticos** (`raw_fake`), não com seus dados reais.
+- Para dashboard com dados reais, rode localmente após o pipeline com `data/raw/`.
+
 ### 10. Rotina Semanal Recomendada
 
 1. Atualizar arquivos brutos em `data/raw/`.
@@ -336,6 +372,14 @@ streamlit run src/cosmeticos_ia/app/dashboard.py
 ```
 
 > Run the pipeline first to generate artifacts in `data/processed/`.
+
+### 9.1 Deploy (Streamlit Community Cloud)
+
+Use root [`streamlit_app.py`](streamlit_app.py) as the entry point. On first cloud run it builds artifacts from `data/raw_fake` (synthetic data).
+
+1. Push to GitHub → [share.streamlit.io](https://share.streamlit.io) → **Create app**
+2. Repo: `yggorcoder/machinelearning_prevision` | Branch: `master` | Main file: `streamlit_app.py`
+3. **Deploy** — first load may take ~1 min while the pipeline runs.
 
 ### 10. Recommended Weekly Routine
 
