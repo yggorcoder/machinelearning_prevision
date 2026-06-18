@@ -7,6 +7,8 @@ from cosmeticos_ia.config import PROCESSED_DATA_DIR
 from cosmeticos_ia.data.loaders import load_clientes, load_compras
 from cosmeticos_ia.data.preprocessing import preprocess_clientes, preprocess_compras
 
+CAMPAIGN_TOP_K = 100
+
 DEFAULT_FEATURE_COLS = [
     "recency",
     "frequency_lookback",
@@ -120,13 +122,13 @@ def main() -> None:
     output_path = PROCESSED_DATA_DIR / "propensity_scoring.csv"
     out.to_csv(output_path, index=False)
 
-    top50 = out.head(50).copy()
-    top50_path = PROCESSED_DATA_DIR / "campanha_top50.csv"
-    top50.to_csv(top50_path, index=False)
+    top_campaign = out.head(CAMPAIGN_TOP_K).copy()
+    top_campaign_path = PROCESSED_DATA_DIR / "campanha_top100.csv"
+    top_campaign.to_csv(top_campaign_path, index=False)
 
     print(f"Scoring gerado com {len(out)} clientes.")
     print(f"Arquivo: {output_path}")
-    print(f"Top 50 campanha: {top50_path}")
+    print(f"Top {CAMPAIGN_TOP_K} campanha: {top_campaign_path}")
     print("\nTop 10:")
     print(out.head(10).to_string(index=False))
 

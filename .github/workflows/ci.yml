@@ -70,7 +70,7 @@ jobs:
           from pathlib import Path
           required = [
             "data/processed/propensity_metrics.csv",
-            "data/processed/campanha_top50.csv",
+            "data/processed/campanha_top100.csv",
             "data/processed/campaign_uplift_vs_baseline.csv",
             "data/processed/forecast_backtest_summary.csv",
             "data/processed/forecast_model_selection.csv",

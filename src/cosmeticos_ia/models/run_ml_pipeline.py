@@ -10,7 +10,7 @@ def main() -> None:
     print("[1/4] Treinando modelo de propensão...")
     train_main()
 
-    print("\n[2/4] Gerando scoring e campanha Top-50...")
+    print("\n[2/4] Gerando scoring e campanha Top-100...")
     predict_main()
 
     print("\n[3/4] Avaliando Recall@K por snapshot...")

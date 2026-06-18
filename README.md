@@ -8,34 +8,33 @@ Machine Learning project for commercial and operational decision-making in a cos
 
 ## PT-BR
 
-### Resultados (reproduzíveis com `data/raw_fake`)
+### Resultados (dados reais — `data/raw`, periodo de teste out/2025)
 
-> Execute o pipeline com dados fake para reproduzir os números abaixo:
-> ```powershell
-> $env:PYTHONPATH="src"
-> $env:COSMETICOS_RAW_DATA_DIR="data/raw_fake"
-> python -m cosmeticos_ia.pipelines.run_all_pipelines
-> ```
+> Reproduza com: `python -m cosmeticos_ia.pipelines.run_all_pipelines`  
+> Com dados sinteticos (CI/GitHub): `$env:COSMETICOS_RAW_DATA_DIR="data/raw_fake"`
 
 #### Modelo de propensão de recompra
 
-| Estratégia          | PR-AUC | Recall@50 | Precision@50 |
-|---------------------|--------|-----------|--------------|
-| Baseline (recency)  | —      | veja `propensity_metrics.csv` | — |
-| Random Forest + RFM | —      | veja `propensity_metrics.csv` | — |
+| Estratégia | PR-AUC | Recall@50 | Precisão@50 |
+|------------|--------|-----------|-------------|
+| Baseline (recência) | 0,42 | 1,5% | 52% |
+| **Random Forest + RFM** | **0,54** | **2,8%** | **94%** |
 
-> Uplift detalhado por K em `campaign_uplift_vs_baseline.csv`
+- Ganho PR-AUC vs baseline: **+12,1 p.p.**
+- Uplift Recall@50 vs baseline: **+4,2 p.p.** | Lift@50: **1,51×** *(métricas de avaliação no Top 50; a lista operacional exportada usa **Top 100**)*
 
-#### Forecast de faturamento diário (walk-forward backtest)
+#### Forecast de faturamento diário (walk-forward backtest, 9 folds)
 
-| Modelo            | WAPE médio | Uplift vs naive_lag7 |
-|-------------------|------------|----------------------|
-| naive_lag7        | —          | baseline             |
-| naive_rolling7    | —          | —                    |
-| Random Forest     | —          | veja `forecast_backtest_summary.csv` |
-| XGBoost           | —          | veja `forecast_backtest_summary.csv` |
+| Modelo | WAPE médio | MAE médio |
+|--------|------------|-----------|
+| Baseline lag-7 | 82,5% | R$ 687/dia |
+| Baseline média móvel 7d | 62,9% | R$ 532/dia |
+| **Random Forest (produção)** | **7,6%** | **R$ 65/dia** |
 
-> Números reais aparecem após execução do pipeline (dados proprietários não incluídos no repo).
+- Erro no split atual de validação: **WAPE 8,6%** (MAE R$ 76/dia)
+- Ganho WAPE vs melhor baseline no split: **−58,6 p.p.**
+
+> Valores gerados automaticamente pelo pipeline. Dados proprietários não são versionados no GitHub.
 
 ---
 
@@ -43,7 +42,7 @@ Machine Learning project for commercial and operational decision-making in a cos
 
 Este projeto apoia duas decisões principais do negócio:
 
-- **Reativação e priorização de clientes** — lista semanal Top-50 com score de propensão.
+- **Reativação e priorização de clientes** — lista semanal **Top 100** com score de propensão (exportável em CSV).
 - **Planejamento de faturamento/compras** — previsão de demanda 30 dias à frente.
 
 **Status atual:**
@@ -99,13 +98,13 @@ cosmeticos-ia/
 │  └─ 03_plano_execucao.md
 ├─ notebooks/                   ← EDA local (não versionado; pode conter dados reais)
 ├─ src/cosmeticos_ia/
-│  ├─ app/dashboard.py
+│  ├─ app/dashboard.py          ← 5 abas: Geral, Campanhas, Forecast, Uplift, Monitoramento
 │  ├─ data/           ← loaders, preprocessing, quality, fake data
 │  ├─ features/       ← build_features, build_training_data, geocode
 │  ├─ models/
 │  │  ├─ metrics.py                    ← métricas compartilhadas (WAPE, PR-AUC, Recall@K…)
 │  │  ├─ train.py                      ← propensão: RF + baseline recency
-│  │  ├─ predict.py                    ← scoring + Top-50
+│  │  ├─ predict.py                    ← scoring + campanha Top-100
 │  │  ├─ evaluate_campaign.py          ← Recall@K por snapshot
 │  │  ├─ evaluate_campaign_uplift.py   ← uplift modelo vs baseline
 │  │  ├─ train_forecast.py             ← forecast: RF/XGB + baselines naives
@@ -179,7 +178,7 @@ python -m cosmeticos_ia.pipelines.run_all_pipelines
 - `propensity_model.joblib`
 - `propensity_metrics.csv` — PR-AUC, ROC-AUC, Recall@K, Precision@K para modelo e baseline
 - `propensity_scoring.csv` — todos os clientes ranqueados
-- `campanha_top50.csv` — lista operacional da semana
+- `campanha_top100.csv` — lista operacional da semana (Top 100)
 - `propensity_recall_at_k_by_snapshot.csv`
 - `campaign_uplift_summary.csv` — uplift por estratégia e K
 - `campaign_uplift_vs_baseline.csv` — ganho em p.p. vs baseline
@@ -215,10 +214,14 @@ python -m cosmeticos_ia.pipelines.run_all_pipelines
 
 ### 9. Dashboard
 
+Cinco abas: **Visão Geral**, **Campanhas**, **Forecast**, **Uplift**, **Monitoramento**.
+
 ```powershell
 $env:PYTHONPATH="src"
 streamlit run src/cosmeticos_ia/app/dashboard.py
 ```
+
+> Rode o pipeline antes para gerar os artefatos em `data/processed/`.
 
 ### 10. Rotina Semanal Recomendada
 
@@ -226,7 +229,7 @@ streamlit run src/cosmeticos_ia/app/dashboard.py
 2. Rodar `run_all_pipelines`.
 3. Verificar `monitoring_summary.csv` — se ALERT, retreinar.
 4. Revisar `forecast_model_selection.csv` e métricas.
-5. Executar campanha com `campanha_top50.csv`.
+5. Executar campanha com `campanha_top100.csv`.
 6. Acompanhar resultados no dashboard.
 
 ### 11. Testes
@@ -251,7 +254,7 @@ Cobertura dos testes unitários:
 
 This project supports two core business decisions:
 
-- **Customer reactivation and prioritization** — weekly Top-50 list scored by repurchase propensity.
+- **Customer reactivation and prioritization** — weekly **Top 100** list scored by repurchase propensity.
 - **Revenue/purchase planning** — 30-day demand forecasting.
 
 **Current status:**
@@ -325,10 +328,14 @@ See PT-BR section — artifact names are the same.
 
 ### 9. Dashboard
 
+Five tabs: Overview, Campaigns, Forecast, Uplift, Monitoring.
+
 ```powershell
 $env:PYTHONPATH="src"
 streamlit run src/cosmeticos_ia/app/dashboard.py
 ```
+
+> Run the pipeline first to generate artifacts in `data/processed/`.
 
 ### 10. Recommended Weekly Routine
 
@@ -336,7 +343,7 @@ streamlit run src/cosmeticos_ia/app/dashboard.py
 2. Run `run_all_pipelines`.
 3. Check `monitoring_summary.csv` — retrain if ALERT.
 4. Review `forecast_model_selection.csv` and metrics.
-5. Execute campaign using `campanha_top50.csv`.
+5. Execute campaign using `campanha_top100.csv`.
 6. Track outcomes in the dashboard.
 
 ### 11. Tests
