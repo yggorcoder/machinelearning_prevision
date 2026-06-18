@@ -128,7 +128,7 @@ cosmeticos-ia/
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 ### 6. Execução Oficial (1 comando)
@@ -239,7 +239,8 @@ O arquivo [`streamlit_app.py`](streamlit_app.py) na raiz é o ponto de entrada p
 4. **Main file path:** `streamlit_app.py`
 5. **App URL:** escolha um slug (ex.: `cosmeticos-ia-demo`).
 6. Clique em **Deploy** e aguarde o build (2–5 min na primeira vez).
-7. Na primeira abertura do app, o pipeline pode levar ~1 min para gerar os artefatos — é normal.
+7. O projeto usa **Python 3.12** (`.python-version`) e `packages.txt` (`libgomp1` para XGBoost).
+8. Na primeira abertura do app, o pipeline pode levar ~1 min para gerar os artefatos — é normal.
 
 **Configuração avançada (opcional)**
 
@@ -328,7 +329,7 @@ See PT-BR section above (structure is language-agnostic).
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 ### 6. Official Run (single command)
