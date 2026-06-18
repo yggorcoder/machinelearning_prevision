@@ -39,6 +39,9 @@ jobs:
   pipeline-smoke:
     runs-on: ubuntu-latest
     needs: test
+    env:
+      PYTHONPATH: src
+      COSMETICOS_RAW_DATA_DIR: data/raw_fake
 
     steps:
       - uses: actions/checkout@v4
@@ -58,15 +61,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Generate fake data
-        env:
-          PYTHONPATH: src
-        run: python -m cosmeticos_ia.data.generate_fake_raw
-
       - name: Run full pipeline with fake data
-        env:
-          PYTHONPATH: src
-          COSMETICOS_RAW_DATA_DIR: data/raw_fake
         run: python -m cosmeticos_ia.pipelines.run_all_pipelines
 
       - name: Check required artifacts exist

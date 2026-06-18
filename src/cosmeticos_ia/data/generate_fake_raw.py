@@ -104,6 +104,15 @@ def _fake_numeric(series: pd.Series, rng: np.random.Generator) -> pd.Series:
     return out
 
 
+def _fake_stable_id(value: object) -> str:
+    """Mapeia um ID real para um ID fake fixo (preserva vínculos entre linhas)."""
+    text = str(value).strip()
+    if not text or text.lower() in {"nan", "none"}:
+        return text
+    bucket = abs(hash(text)) % 900000 + 100000
+    return f"ID{bucket}"
+
+
 def _mask_column(col_name: str, series: pd.Series, rng: np.random.Generator, row_idx: pd.Series) -> pd.Series:
     c = _normalize_text(col_name)
     out = series.copy()
@@ -143,7 +152,7 @@ def _mask_column(col_name: str, series: pd.Series, rng: np.random.Generator, row
         out.loc[row_idx] = _fake_numeric(out.loc[row_idx], rng)
         return out
     if any(k in c for k in ("id", "codigo", "cod", "pedido", "op")):
-        out.loc[row_idx] = [f"ID{100000 + i}" for i in range(row_idx.sum())]
+        out.loc[row_idx] = out.loc[row_idx].map(_fake_stable_id)
         return out
 
     return out

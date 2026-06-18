@@ -4,7 +4,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from cosmeticos_ia.config import PROCESSED_DATA_DIR
+from cosmeticos_ia.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
+from cosmeticos_ia.data.convert_to_parquet import main as convert_to_parquet_main
 from cosmeticos_ia.data.loaders import load_clientes, load_compras, load_pedidos_cd
 from cosmeticos_ia.data.preprocessing import (
     preprocess_clientes,
@@ -18,7 +19,11 @@ from cosmeticos_ia.features.build_features import build_daily_kpis, build_rfm
 def main() -> None:
     PROCESSED_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    # 1) Load raw->processed base datasets (já em parquet)
+    # 0) xlsx (raw) -> parquet — necessário em ambientes limpos (ex.: CI)
+    print(f"Convertendo xlsx de {RAW_DATA_DIR} para parquet...")
+    convert_to_parquet_main()
+
+    # 1) Load raw->processed base datasets
     df_compras_raw = load_compras()
     df_clientes_raw = load_clientes()
     df_pedidos_raw = load_pedidos_cd()

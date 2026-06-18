@@ -1,6 +1,6 @@
 ﻿# Cosméticos IA
 
-[![CI](https://github.com/YOUR_USER/cosmeticos-ia/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USER/cosmeticos-ia/actions/workflows/ci.yml)
+[![CI](https://github.com/yggorcoder/machinelearning_prevision/actions/workflows/ci.yml/badge.svg)](https://github.com/yggorcoder/machinelearning_prevision/actions/workflows/ci.yml)
 
 Machine Learning project for commercial and operational decision-making in a cosmetics distribution business.
 
@@ -143,7 +143,7 @@ python -m cosmeticos_ia.pipelines.run_all_pipelines
 
 Este comando executa em sequência:
 
-1. `data.run_data_pipeline` — qualidade + features
+1. `data.run_data_pipeline` — xlsx → parquet, qualidade + features
 2. `models.run_ml_pipeline` — propensão + scoring + Recall@K + uplift
 3. `models.train_forecast` — treino com baselines naives
 4. `models.backtest_forecast` — walk-forward backtest
