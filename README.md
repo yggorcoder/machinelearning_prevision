@@ -225,7 +225,16 @@ streamlit run src/cosmeticos_ia/app/dashboard.py
 
 ### 9.1 Deploy (Streamlit Community Cloud)
 
-O arquivo [`streamlit_app.py`](streamlit_app.py) na raiz é o ponto de entrada para deploy público. Na primeira execução na nuvem, ele roda o pipeline automaticamente com `data/raw_fake` (dados sintéticos — sem expor clientes reais).
+O arquivo [`streamlit_app.py`](streamlit_app.py) na raiz é o ponto de entrada para deploy público. Ele carrega artefatos pré-gerados em `data/processed_demo/` (dados sintéticos — sem expor clientes reais). O pipeline **não** roda na nuvem.
+
+**Atualizar artefatos de demo** (após rodar o pipeline com `raw_fake`):
+
+```powershell
+$env:PYTHONPATH="src"
+$env:COSMETICOS_RAW_DATA_DIR="data/raw_fake"
+python -m cosmeticos_ia.pipelines.run_all_pipelines
+python scripts/sync_processed_demo.py
+```
 
 **Pré-requisitos**
 1. Código atualizado no GitHub (`master`).
@@ -238,9 +247,8 @@ O arquivo [`streamlit_app.py`](streamlit_app.py) na raiz é o ponto de entrada p
 3. **Branch:** `master`
 4. **Main file path:** `streamlit_app.py`
 5. **App URL:** escolha um slug (ex.: `cosmeticos-ia-demo`).
-6. Clique em **Deploy** e aguarde o build (2–5 min na primeira vez).
-7. O projeto usa **Python 3.12** (`.python-version`) e `packages.txt` (`libgomp1` para XGBoost).
-8. Na primeira abertura do app, o pipeline pode levar ~1 min para gerar os artefatos — é normal.
+6. Em **Advanced settings**, selecione **Python 3.12**.
+7. Clique em **Deploy** e aguarde o build (2–5 min).
 
 **Configuração avançada (opcional)**
 
@@ -376,7 +384,7 @@ streamlit run src/cosmeticos_ia/app/dashboard.py
 
 ### 9.1 Deploy (Streamlit Community Cloud)
 
-Use root [`streamlit_app.py`](streamlit_app.py) as the entry point. On first cloud run it builds artifacts from `data/raw_fake` (synthetic data).
+Use root [`streamlit_app.py`](streamlit_app.py) as the entry point. It loads pre-built artifacts from `data/processed_demo/` (synthetic data). The full pipeline does not run in the cloud.
 
 1. Push to GitHub → [share.streamlit.io](https://share.streamlit.io) → **Create app**
 2. Repo: `yggorcoder/machinelearning_prevision` | Branch: `master` | Main file: `streamlit_app.py`

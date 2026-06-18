@@ -1,0 +1,7 @@
+feature,ref_mean,ref_std,current_mean,current_std,mean_shift_normalized,psi,status
+recency,35.6374,25.5134,50.5854,24.8257,0.5859,0.3578,ALERT
+frequency_lookback,1.7683,1.1968,1.7051,1.5404,0.0528,0.0481,OK
+monetary_lookback,0.0,0.0,0.0,0.0,0.0,0.0,OK
+ticket_medio_lookback,0.0,0.0,0.0,0.0,0.0,0.0,OK
+tendencia_gasto_lookback,0.0,0.0,0.0,0.0,0.0,0.0,OK
+faturamento_total,0.0,0.0,0.0,0.0,0.0,0.0,OK

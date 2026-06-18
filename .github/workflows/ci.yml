@@ -64,6 +64,9 @@ jobs:
       - name: Run full pipeline with fake data
         run: python -m cosmeticos_ia.pipelines.run_all_pipelines
 
+      - name: Sync demo artifacts for Streamlit deploy
+        run: python scripts/sync_processed_demo.py
+
       - name: Check required artifacts exist
         run: |
           python - <<'EOF'
@@ -77,9 +80,14 @@ jobs:
             "data/processed/forecast_future_30d.csv",
             "data/processed/monitoring_summary.csv",
           ]
-          missing = [f for f in required if not Path(f).exists()]
+          demo_required = [
+            "data/processed_demo/campanha_top100.csv",
+            "data/processed_demo/kpis_diarios.parquet",
+            "data/processed_demo/forecast_future_30d.csv",
+          ]
+          missing = [f for f in required + demo_required if not Path(f).exists()]
           if missing:
               print("MISSING artifacts:", missing)
               raise SystemExit(1)
-          print(f"All {len(required)} artifacts present.")
+          print(f"All {len(required) + len(demo_required)} artifacts present.")
           EOF

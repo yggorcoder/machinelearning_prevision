@@ -1,0 +1,5 @@
+model,folds,mae_mean,mae_std,mape_mean,mape_std,wape_mean,wape_std,wape_uplift_vs_best_baseline
+naive_lag7,14,0.0,0.0,,,0.0,0.0,0.0
+naive_rolling7,14,0.0,0.0,,,0.0,0.0,0.0
+random_forest,14,0.0,0.0,,,0.0,0.0,0.0
+xgboost,14,0.0,0.0,,,0.0,0.0,0.0
