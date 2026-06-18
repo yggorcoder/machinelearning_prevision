@@ -1,52 +1,131 @@
 ﻿# Cosméticos IA
 
-Projeto de Machine Learning aplicado à gestão comercial e operacional de uma distribuidora de cosméticos.
+[![CI](https://github.com/YOUR_USER/cosmeticos-ia/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USER/cosmeticos-ia/actions/workflows/ci.yml)
 
 Machine Learning project for commercial and operational decision-making in a cosmetics distribution business.
 
+---
+
 ## PT-BR
 
-### 1. Visão Geral
-Este projeto apoia duas decisões principais do negócio:
-- Reativação e priorização de clientes.
-- Planejamento de faturamento/compras com previsão de demanda.
+### Resultados (reproduzíveis com `data/raw_fake`)
 
-Status atual:
-- Pipeline de dados com checagem de qualidade.
-- Modelo de propensão (ranking comercial + campanha Top50).
-- Modelo de forecast com seleção de produção por backtest.
+> Execute o pipeline com dados fake para reproduzir os números abaixo:
+> ```powershell
+> $env:PYTHONPATH="src"
+> $env:COSMETICOS_RAW_DATA_DIR="data/raw_fake"
+> python -m cosmeticos_ia.pipelines.run_all_pipelines
+> ```
+
+#### Modelo de propensão de recompra
+
+| Estratégia          | PR-AUC | Recall@50 | Precision@50 |
+|---------------------|--------|-----------|--------------|
+| Baseline (recency)  | —      | veja `propensity_metrics.csv` | — |
+| Random Forest + RFM | —      | veja `propensity_metrics.csv` | — |
+
+> Uplift detalhado por K em `campaign_uplift_vs_baseline.csv`
+
+#### Forecast de faturamento diário (walk-forward backtest)
+
+| Modelo            | WAPE médio | Uplift vs naive_lag7 |
+|-------------------|------------|----------------------|
+| naive_lag7        | —          | baseline             |
+| naive_rolling7    | —          | —                    |
+| Random Forest     | —          | veja `forecast_backtest_summary.csv` |
+| XGBoost           | —          | veja `forecast_backtest_summary.csv` |
+
+> Números reais aparecem após execução do pipeline (dados proprietários não incluídos no repo).
+
+---
+
+### 1. Visão Geral
+
+Este projeto apoia duas decisões principais do negócio:
+
+- **Reativação e priorização de clientes** — lista semanal Top-50 com score de propensão.
+- **Planejamento de faturamento/compras** — previsão de demanda 30 dias à frente.
+
+**Status atual:**
+- Pipeline de dados com checagem de qualidade e bloqueio em erro crítico.
+- Modelo de propensão com baseline de recency, validação temporal e avaliação de uplift.
+- Modelo de forecast com baselines naives, seleção por backtest walk-forward.
+- Monitoramento de drift de features e faturamento.
 - Dashboard executivo em Streamlit.
+- CI/CD via GitHub Actions (testes + smoke test do pipeline completo).
 
 ### 2. Objetivos de Negócio
+
 - Aumentar receita com ação comercial orientada por score.
 - Melhorar cobertura de clientes compradores com listas semanais.
-- Reduzir erro de previsão para decisão operacional.
+- Reduzir erro de previsão para decisão operacional de compras.
 
 ### 3. Fontes de Dados
-Arquivos brutos (`data/raw/`):
+
+**Dados reais (apenas local, não versionados)** — pasta `data/raw/`:
 - `clientes.xlsx`
 - `compras_clientes.xlsx`
 - `pedidos_cd.xlsx`
 
+**Dados sintéticos (versionados no GitHub)** — pasta `data/raw_fake/`:
+- Mesmos nomes de arquivo, com nomes, CPFs, e-mails e valores fictícios gerados por `generate_fake_raw`.
+- Usados na CI e para quem clonar o repositório sem acesso aos dados proprietários.
+
+Consulte [`docs/data_dictionary.md`](docs/data_dictionary.md) para descrição completa de todas as colunas e métricas.
+
+#### Privacidade — o que não vai para o GitHub
+
+| Item | Versionado? |
+|------|-------------|
+| `data/raw/` (dados reais) | Não |
+| `data/processed/` (parquets, modelos, campanhas) | Não |
+| `notebooks/` (EDA local) | Não |
+| `.env` e credenciais | Não |
+| `data/raw_fake/` (dados sintéticos) | Sim |
+
 ### 4. Estrutura do Projeto
+
 ```text
 cosmeticos-ia/
+├─ .github/workflows/ci.yml     ← CI: testes + pipeline smoke test
 ├─ data/
-│  ├─ raw/
-│  └─ processed/
+│  ├─ raw/                      ← dados proprietários (não versionados)
+│  ├─ raw_fake/                 ← dados sintéticos para CI/reprodutibilidade
+│  └─ processed/                ← artefatos gerados (não versionados)
 ├─ docs/
-├─ notebooks/
+│  ├─ data_dictionary.md        ← dicionário de dados completo
+│  ├─ 01_escopo_negocio.md
+│  ├─ 02_metricas_e_targets.md
+│  └─ 03_plano_execucao.md
+├─ notebooks/                   ← EDA local (não versionado; pode conter dados reais)
 ├─ src/cosmeticos_ia/
-│  ├─ app/
-│  ├─ data/
-│  ├─ features/
+│  ├─ app/dashboard.py
+│  ├─ data/           ← loaders, preprocessing, quality, fake data
+│  ├─ features/       ← build_features, build_training_data, geocode
 │  ├─ models/
-│  └─ pipelines/
-├─ tests/
-└─ requirements.txt
+│  │  ├─ metrics.py                    ← métricas compartilhadas (WAPE, PR-AUC, Recall@K…)
+│  │  ├─ train.py                      ← propensão: RF + baseline recency
+│  │  ├─ predict.py                    ← scoring + Top-50
+│  │  ├─ evaluate_campaign.py          ← Recall@K por snapshot
+│  │  ├─ evaluate_campaign_uplift.py   ← uplift modelo vs baseline
+│  │  ├─ train_forecast.py             ← forecast: RF/XGB + baselines naives
+│  │  ├─ backtest_forecast.py          ← walk-forward backtest
+│  │  ├─ select_forecast_model.py      ← seleção por WAPE médio
+│  │  ├─ predict_forecast.py           ← previsão futura 30d
+│  │  ├─ run_ml_pipeline.py            ← orquestrador ML
+│  │  └─ monitoring.py                 ← drift de features e faturamento
+│  └─ pipelines/run_all_pipelines.py   ← orquestrador completo (7 etapas)
+└─ tests/
+   ├─ data/test_data_quality.py
+   ├─ features/test_geocode.py
+   └─ models/
+      ├─ test_metrics.py               ← métricas compartilhadas
+      ├─ test_build_training_data.py   ← invariantes do dataset de propensão
+      └─ test_uplift.py                ← avaliação de uplift de campanha
 ```
 
 ### 5. Setup do Ambiente
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -54,22 +133,26 @@ pip install -r requirements.txt
 ```
 
 ### 6. Execução Oficial (1 comando)
+
 Na raiz do projeto:
+
 ```powershell
 $env:PYTHONPATH="src"
 python -m cosmeticos_ia.pipelines.run_all_pipelines
 ```
 
 Este comando executa em sequência:
-1. `data.run_data_pipeline`
-2. `models.run_ml_pipeline` (propensão)
-3. `models.train_forecast`
-4. `models.backtest_forecast`
-5. `models.select_forecast_model`
-6. `models.predict_forecast`
+
+1. `data.run_data_pipeline` — qualidade + features
+2. `models.run_ml_pipeline` — propensão + scoring + Recall@K + uplift
+3. `models.train_forecast` — treino com baselines naives
+4. `models.backtest_forecast` — walk-forward backtest
+5. `models.select_forecast_model` — seleção por WAPE médio
+6. `models.predict_forecast` — previsão 30 dias
+7. `models.monitoring` — relatório de drift
 
 ### 6.1 Dados Fake para GitHub (sem expor dados reais)
-Gerar planilhas fake com o mesmo schema:
+
 ```powershell
 $env:PYTHONPATH="src"
 python -m cosmeticos_ia.data.generate_fake_raw
@@ -77,113 +160,132 @@ python -m cosmeticos_ia.data.generate_fake_raw
 
 Arquivos gerados em `data/raw_fake/`.
 
-Para rodar o pipeline usando os dados fake:
+Para rodar o pipeline com dados fake:
+
 ```powershell
 $env:PYTHONPATH="src"
 $env:COSMETICOS_RAW_DATA_DIR="data/raw_fake"
 python -m cosmeticos_ia.pipelines.run_all_pipelines
 ```
 
-### 7. Artefatos Gerados (data/processed)
-Dados e qualidade:
+### 7. Artefatos Gerados (`data/processed/`)
+
+**Dados e qualidade:**
 - `quality_report.csv`
-- `compras_clientes_clean.parquet`
-- `clientes_clean.parquet`
-- `pedidos_cd_clean.parquet`
-- `kpis_diarios.parquet`
-- `kpis_diarios_features.parquet`
+- `compras_clientes_clean.parquet`, `clientes_clean.parquet`, `pedidos_cd_clean.parquet`
+- `kpis_diarios.parquet`, `kpis_diarios_features.parquet`
 
-Propensão:
+**Propensão:**
 - `propensity_model.joblib`
-- `propensity_metrics.csv`
-- `propensity_scoring.csv`
-- `campanha_top50.csv`
+- `propensity_metrics.csv` — PR-AUC, ROC-AUC, Recall@K, Precision@K para modelo e baseline
+- `propensity_scoring.csv` — todos os clientes ranqueados
+- `campanha_top50.csv` — lista operacional da semana
 - `propensity_recall_at_k_by_snapshot.csv`
+- `campaign_uplift_summary.csv` — uplift por estratégia e K
+- `campaign_uplift_vs_baseline.csv` — ganho em p.p. vs baseline
 
-Forecast:
-- `forecast_model_comparison.csv`
-- `forecast_backtest_detail.csv`
-- `forecast_backtest_summary.csv`
-- `forecast_model_selection.csv`
-- `forecast_model.joblib` (modelo de produção)
+**Forecast:**
+- `forecast_model_comparison.csv` — todos os modelos + uplift vs naive
+- `forecast_backtest_detail.csv`, `forecast_backtest_summary.csv`
+- `forecast_model_selection.csv` — modelo eleito para produção
+- `forecast_model.joblib`
 - `forecast_metrics.csv`
 - `forecast_predictions_test.csv`
 - `forecast_future_30d.csv`
 
-### 8. Métricas-Chave
-Propensão:
-- `PR-AUC`, `ROC-AUC`
-- `Recall@K por snapshot` (métrica operacional)
+**Monitoramento:**
+- `monitoring_report.csv` — PSI e mean shift por feature
+- `monitoring_summary.csv` — status geral (OK / WARNING / ALERT)
 
-Forecast:
-- `MAE`, `MAPE`, `WAPE`
-- Seleção final de produção baseada em backtest (estabilidade)
+### 8. Métricas-Chave
+
+**Propensão:**
+- `PR-AUC` (principal — dados desbalanceados)
+- `Recall@K` e `Precision@K` por snapshot (operacional)
+- `Uplift@K` vs baseline de recency (negócio)
+
+**Forecast:**
+- `WAPE` (principal — robusto a zeros)
+- `MAE`, `MAPE`
+- Seleção de produção baseada em estabilidade de backtest
+
+**Monitoramento:**
+- `PSI` por feature — > 0.2 dispara ALERT de retreino
+- `mean_shift_normalized` — desvio de médias em σ
 
 ### 9. Dashboard
-Rodar:
+
 ```powershell
 $env:PYTHONPATH="src"
 streamlit run src/cosmeticos_ia/app/dashboard.py
 ```
 
 ### 10. Rotina Semanal Recomendada
+
 1. Atualizar arquivos brutos em `data/raw/`.
 2. Rodar `run_all_pipelines`.
-3. Revisar `forecast_model_selection.csv` e métricas.
-4. Executar campanha com `campanha_top50.csv`.
-5. Acompanhar resultados no dashboard.
+3. Verificar `monitoring_summary.csv` — se ALERT, retreinar.
+4. Revisar `forecast_model_selection.csv` e métricas.
+5. Executar campanha com `campanha_top50.csv`.
+6. Acompanhar resultados no dashboard.
 
 ### 11. Testes
+
 ```powershell
 $env:PYTHONPATH="src"
 pytest -q
 ```
+
+Cobertura dos testes unitários:
+- Qualidade de dados (`tests/data/`)
+- Geocodificação (`tests/features/`)
+- Métricas compartilhadas — WAPE, PR-AUC, Recall@K, splits temporais (`tests/models/test_metrics.py`)
+- Invariantes do dataset de propensão — sem leakage, target binário, ordem temporal (`tests/models/test_build_training_data.py`)
+- Uplift de campanha — lift, recall monotônico, limites (`tests/models/test_uplift.py`)
 
 ---
 
 ## EN
 
 ### 1. Overview
-This project supports two core business decisions:
-- Customer reactivation and prioritization.
-- Revenue/purchase planning through demand forecasting.
 
-Current status:
-- Data pipeline with quality checks.
-- Propensity model (commercial ranking + Top50 campaign).
-- Forecast model with production selection via backtesting.
+This project supports two core business decisions:
+
+- **Customer reactivation and prioritization** — weekly Top-50 list scored by repurchase propensity.
+- **Revenue/purchase planning** — 30-day demand forecasting.
+
+**Current status:**
+- Data pipeline with quality checks and critical-error blocking.
+- Propensity model with recency baseline, temporal validation, and uplift evaluation.
+- Forecast model with naive baselines, production selection via walk-forward backtesting.
+- Feature and revenue drift monitoring.
 - Executive dashboard in Streamlit.
+- CI/CD via GitHub Actions (unit tests + full pipeline smoke test).
 
 ### 2. Business Goals
+
 - Increase revenue using score-driven commercial actions.
 - Improve buyer coverage with weekly ranked lists.
 - Reduce forecast error for operational planning.
 
 ### 3. Data Sources
-Raw files (`data/raw/`):
-- `clientes.xlsx`
-- `compras_clientes.xlsx`
-- `pedidos_cd.xlsx`
+
+**Real data (local only, not versioned)** — `data/raw/`:
+- `clientes.xlsx`, `compras_clientes.xlsx`, `pedidos_cd.xlsx`
+
+**Synthetic data (versioned on GitHub)** — `data/raw_fake/`:
+- Same schema, anonymized values for CI and public reproducibility.
+
+See [`docs/data_dictionary.md`](docs/data_dictionary.md) for full column and metric descriptions.
+
+**Not versioned:** `data/raw/`, `data/processed/`, `notebooks/`, `.env`.
 
 ### 4. Project Structure
-```text
-cosmeticos-ia/
-├─ data/
-│  ├─ raw/
-│  └─ processed/
-├─ docs/
-├─ notebooks/
-├─ src/cosmeticos_ia/
-│  ├─ app/
-│  ├─ data/
-│  ├─ features/
-│  ├─ models/
-│  └─ pipelines/
-├─ tests/
-└─ requirements.txt
-```
+
+See PT-BR section above (structure is language-agnostic).
 
 ### 5. Environment Setup
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -191,85 +293,54 @@ pip install -r requirements.txt
 ```
 
 ### 6. Official Run (single command)
-From project root:
+
 ```powershell
 $env:PYTHONPATH="src"
 python -m cosmeticos_ia.pipelines.run_all_pipelines
 ```
 
-This command executes:
-1. `data.run_data_pipeline`
-2. `models.run_ml_pipeline` (propensity)
-3. `models.train_forecast`
-4. `models.backtest_forecast`
-5. `models.select_forecast_model`
-6. `models.predict_forecast`
+Executes 7 steps: data pipeline → propensity (train + score + Recall@K + uplift) → forecast (train + backtest + select + predict) → monitoring.
 
-### 6.1 Fake Data for GitHub (without exposing real data)
-Generate fake spreadsheets with the same schema:
+### 6.1 Fake Data for GitHub
+
 ```powershell
 $env:PYTHONPATH="src"
 python -m cosmeticos_ia.data.generate_fake_raw
-```
-
-Files are written to `data/raw_fake/`.
-
-To run the pipeline with fake data:
-```powershell
-$env:PYTHONPATH="src"
+# then:
 $env:COSMETICOS_RAW_DATA_DIR="data/raw_fake"
 python -m cosmeticos_ia.pipelines.run_all_pipelines
 ```
 
-### 7. Generated Artifacts (data/processed)
-Data and quality:
-- `quality_report.csv`
-- `compras_clientes_clean.parquet`
-- `clientes_clean.parquet`
-- `pedidos_cd_clean.parquet`
-- `kpis_diarios.parquet`
-- `kpis_diarios_features.parquet`
+### 7. Generated Artifacts
 
-Propensity:
-- `propensity_model.joblib`
-- `propensity_metrics.csv`
-- `propensity_scoring.csv`
-- `campanha_top50.csv`
-- `propensity_recall_at_k_by_snapshot.csv`
-
-Forecast:
-- `forecast_model_comparison.csv`
-- `forecast_backtest_detail.csv`
-- `forecast_backtest_summary.csv`
-- `forecast_model_selection.csv`
-- `forecast_model.joblib` (production model)
-- `forecast_metrics.csv`
-- `forecast_predictions_test.csv`
-- `forecast_future_30d.csv`
+See PT-BR section — artifact names are the same.
 
 ### 8. Key Metrics
-Propensity:
-- `PR-AUC`, `ROC-AUC`
-- `Recall@K by snapshot` (operational metric)
 
-Forecast:
-- `MAE`, `MAPE`, `WAPE`
-- Final production selection based on backtest stability
+**Propensity:** PR-AUC, Recall@K / Precision@K by snapshot, Lift@K vs recency baseline.
+
+**Forecast:** WAPE (primary), MAE, MAPE, production selection by backtest stability.
+
+**Monitoring:** PSI per feature (> 0.2 = ALERT), normalised mean shift.
 
 ### 9. Dashboard
+
 ```powershell
 $env:PYTHONPATH="src"
 streamlit run src/cosmeticos_ia/app/dashboard.py
 ```
 
 ### 10. Recommended Weekly Routine
+
 1. Update raw files in `data/raw/`.
 2. Run `run_all_pipelines`.
-3. Review `forecast_model_selection.csv` and metrics.
-4. Execute campaign using `campanha_top50.csv`.
-5. Track outcomes in dashboard.
+3. Check `monitoring_summary.csv` — retrain if ALERT.
+4. Review `forecast_model_selection.csv` and metrics.
+5. Execute campaign using `campanha_top50.csv`.
+6. Track outcomes in the dashboard.
 
 ### 11. Tests
+
 ```powershell
 $env:PYTHONPATH="src"
 pytest -q

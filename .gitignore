@@ -6,7 +6,13 @@ __pycache__/
 .pytest_cache/
 .venv/
 
-# Local notebooks
+# Secrets and local environment
+.env
+.env.*
+*.env
+
+# Notebooks locais (EDA com dados reais — nunca versionar)
+notebooks/
 .ipynb_checkpoints/
 
 # Real/sensitive data and generated artifacts
@@ -17,3 +23,5 @@ data/interim/*
 data/processed/*
 !data/processed/.gitkeep
 
+# Model artifacts fora de data/processed (se gerados na raiz)
+*.joblib

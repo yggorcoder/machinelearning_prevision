@@ -6,23 +6,13 @@ from sklearn.metrics import mean_absolute_error
 
 from cosmeticos_ia.config import PROCESSED_DATA_DIR
 from cosmeticos_ia.models.forecast_features import build_forecast_features
+from cosmeticos_ia.models.metrics import mape, wape
 
 try:
     from xgboost import XGBRegressor
     HAS_XGB = True
 except Exception:
     HAS_XGB = False
-
-
-def mape(y_true: pd.Series, y_pred: pd.Series) -> float:
-    denom = y_true.replace(0, pd.NA).abs()
-    return float(((y_true - y_pred).abs() / denom).dropna().mean())
-
-
-def wape(y_true: pd.Series, y_pred: pd.Series) -> float:
-    num = (y_true - y_pred).abs().sum()
-    den = y_true.abs().sum()
-    return float(num / den) if den != 0 else 0.0
 
 
 def walk_forward_splits(n_rows: int, initial_train: int, test_size: int, step: int):
@@ -32,11 +22,20 @@ def walk_forward_splits(n_rows: int, initial_train: int, test_size: int, step: i
         start += step
 
 
-def eval_one_model(model_name: str, model, X_train, y_train, X_test, y_test) -> dict:
+def _eval_one_model(model_name: str, model, X_train, y_train, X_test, y_test) -> dict:
     model.fit(X_train, y_train)
     pred = pd.Series(model.predict(X_test), index=y_test.index)
     return {
         "model": model_name,
+        "mae": mean_absolute_error(y_test, pred),
+        "mape": mape(y_test, pred),
+        "wape": wape(y_test, pred),
+    }
+
+
+def _eval_naive(name: str, pred: pd.Series, y_test: pd.Series) -> dict:
+    return {
+        "model": name,
         "mae": mean_absolute_error(y_test, pred),
         "mape": mape(y_test, pred),
         "wape": wape(y_test, pred),
@@ -71,8 +70,19 @@ def main() -> None:
         X_train, y_train = train_df[feature_cols], train_df[target_col]
         X_test, y_test = test_df[feature_cols], test_df[target_col]
 
+        # Baselines naives
+        if "fat_lag_7" in test_df.columns:
+            r = _eval_naive("naive_lag7", test_df["fat_lag_7"], y_test)
+            r["fold"] = fold
+            rows.append(r)
+        if "fat_roll_mean_7" in test_df.columns:
+            r = _eval_naive("naive_rolling7", test_df["fat_roll_mean_7"], y_test)
+            r["fold"] = fold
+            rows.append(r)
+
+        # Modelos
         rf = RandomForestRegressor(n_estimators=500, max_depth=12, random_state=42, n_jobs=-1)
-        res_rf = eval_one_model("random_forest", rf, X_train, y_train, X_test, y_test)
+        res_rf = _eval_one_model("random_forest", rf, X_train, y_train, X_test, y_test)
         res_rf["fold"] = fold
         rows.append(res_rf)
 
@@ -80,9 +90,9 @@ def main() -> None:
             xgb = XGBRegressor(
                 n_estimators=600, max_depth=6, learning_rate=0.03,
                 subsample=0.9, colsample_bytree=0.9,
-                objective="reg:squarederror", random_state=42
+                objective="reg:squarederror", random_state=42,
             )
-            res_xgb = eval_one_model("xgboost", xgb, X_train, y_train, X_test, y_test)
+            res_xgb = _eval_one_model("xgboost", xgb, X_train, y_train, X_test, y_test)
             res_xgb["fold"] = fold
             rows.append(res_xgb)
 
@@ -101,14 +111,18 @@ def main() -> None:
         .sort_values("wape_mean")
     )
 
+    # Coluna de uplift vs melhor baseline nos folds
+    baseline_models = summary[summary["model"].str.startswith("naive_")]
+    if not baseline_models.empty:
+        best_baseline_wape = baseline_models["wape_mean"].min()
+        summary["wape_uplift_vs_best_baseline"] = best_baseline_wape - summary["wape_mean"]
+
     detail.to_csv(PROCESSED_DATA_DIR / "forecast_backtest_detail.csv", index=False)
     summary.to_csv(PROCESSED_DATA_DIR / "forecast_backtest_summary.csv", index=False)
 
     print("Backtest concluído.")
-    print("\nResumo:")
+    print("\nResumo (ordenado por WAPE médio):")
     print(summary.to_string(index=False))
-    print(f"\nDetalhe: {PROCESSED_DATA_DIR / 'forecast_backtest_detail.csv'}")
-    print(f"Resumo:  {PROCESSED_DATA_DIR / 'forecast_backtest_summary.csv'}")
 
 
 if __name__ == "__main__":

@@ -3,19 +3,23 @@ from __future__ import annotations
 from cosmeticos_ia.models.train import main as train_main
 from cosmeticos_ia.models.predict import main as predict_main
 from cosmeticos_ia.models.evaluate_campaign import main as evaluate_main
+from cosmeticos_ia.models.evaluate_campaign_uplift import main as uplift_main
 
 
 def main() -> None:
-    print("[1/3] Treinando modelo...")
+    print("[1/4] Treinando modelo de propensão...")
     train_main()
 
-    print("\n[2/3] Gerando scoring e campanha...")
+    print("\n[2/4] Gerando scoring e campanha Top-50...")
     predict_main()
 
-    print("\n[3/3] Avaliando Recall@K...")
+    print("\n[3/4] Avaliando Recall@K por snapshot...")
     evaluate_main()
 
-    print("\nPipeline de ML concluido com sucesso.")
+    print("\n[4/4] Calculando uplift: modelo vs baseline de recency...")
+    uplift_main()
+
+    print("\nPipeline de ML concluído.")
 
 
 if __name__ == "__main__":
